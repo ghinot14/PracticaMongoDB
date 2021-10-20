@@ -1,0 +1,39 @@
+/*
+    Proyectos
+    ruta: /api/docente
+*/
+
+const { Router } = require('express');
+const { check } = require('express-validator');
+const { validarCampos } = require('../middlewares/validar-campos');
+
+const { validarJWT } = require('../middlewares/validar-jwt');
+const { getDocente, actualizarDocente, eliminarDocente, crearDocente } = require('../controllers/docente.controller');
+
+
+const router = Router();
+
+router.get('/', getDocente);
+
+
+router.post('/', [
+        validarJWT,
+        check('nombre', 'El nombre del alumno es obligatorio').not().isEmpty(),
+        validarCampos
+    ],
+    crearDocente);
+
+router.put('/:id', [
+        validarJWT,
+        check('nombre', 'El nombre del alumno es obligatorio').not().isEmpty(),
+        validarCampos
+    ],
+    actualizarDocente);
+
+router.delete('/:id',
+    validarJWT,
+    eliminarDocente);
+
+
+
+module.exports = router;
